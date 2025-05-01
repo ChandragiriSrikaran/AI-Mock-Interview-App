@@ -17,7 +17,6 @@ import { useUser } from "@clerk/nextjs";
 import { saveInterviewToDB } from "@/utils/saveInterview";
 import { useRouter } from "next/navigation";
 
-
 function AddNewInterview() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
@@ -25,7 +24,7 @@ function AddNewInterview() {
   const [jobExperience, setJobExperience] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
-  const router=useRouter();
+  const router = useRouter();
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -46,9 +45,9 @@ function AddNewInterview() {
           jobExperience,
           userEmail: user?.primaryEmailAddress?.emailAddress,
         });
-        if(response) {
+        if (response) {
           setLoading(false);
-          router.push("/dashboard/interview/"+response[0]?.mockId);
+          router.push("/dashboard/interview/" + response[0]?.mockId);
         }
         console.log("Inserted response:", response);
       } else {
