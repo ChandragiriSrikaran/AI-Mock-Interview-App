@@ -6,8 +6,9 @@ import { db } from "@/utils/db";
 import { MockInterview } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
-import { WebcamIcon } from "lucide-react";
+import {WebcamIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function Interview() {
   const params = useParams();
@@ -114,7 +115,11 @@ function Interview() {
             </div>
           )}
           <div className="flex  justify-center items-center mt-2">
+            <Link
+              href={`/Dashboard/interview/${params.interviewId}/start`}
+              className="w-full">
             <Button className="w-full">Start</Button>
+            </Link>
           </div>
         </div>
       </div>
