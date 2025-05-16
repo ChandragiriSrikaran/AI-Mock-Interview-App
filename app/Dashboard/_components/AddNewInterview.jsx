@@ -36,7 +36,7 @@ function AddNewInterview() {
         jobDesc,
         jobExperience,
       });
-
+      console.log('from teh new interview '+result)
       if (result) {
         const response = await saveInterviewToDB({
           result,
@@ -47,7 +47,7 @@ function AddNewInterview() {
         });
         if (response) {
           setLoading(false);
-          router.push("/dashboard/interview/" + response[0]?.mockId);
+          router.push("/Dashboard/interview/" + response[0]?.mockId);
         }
         console.log("Inserted response:", response);
       } else {

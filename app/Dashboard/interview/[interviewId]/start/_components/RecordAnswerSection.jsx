@@ -9,6 +9,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/utils/db";
 import moment from "moment";
+import { UserAnswer } from "@/utils/schema";
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 
@@ -43,6 +44,7 @@ function RecordAnswerSection({
     if(!isRecording && userAnswer.length > 10) {
       UpdateUserAnswer();
     }
+    
   }, [userAnswer]);
 
   const StartStopRecording = async () => {
@@ -50,13 +52,7 @@ function RecordAnswerSection({
     {
         stopSpeechToText();
         console.log(userAnswer);
-        if (userAnswer?.length < 10) {
-          setLoading(false);
-          toast.error("Please provide a more detailed answer.");
-          setUserAnswer("");
-          return;
-        }
-        setUserAnswer("");
+        // setUserAnswer("");
     }
     else {
       startSpeechToText();
@@ -102,20 +98,25 @@ function RecordAnswerSection({
       const jsonFeedbackResponse = JSON.parse(text);
       console.log("Parsed JSON:", jsonFeedbackResponse);
 
-      // const resp = db.insert(userAnswer).values({
-      //   mockIdRef: interviewData?.mockId,
-      //   question: mockInterviewQuestions[activeQuestion]?.question,
-      //   correctAns: mockInterviewQuestions[activeQuestion]?.answer,
-      //   userAns: userAnswer,
-      //   feedback: jsonFeedbackResponse.feedback,
-      //   rating: jsonFeedbackResponse.rating,
-      //   userEmail: user?.primaryEmailAddress?.emailAddress,
-      //   createdAt: moment().format("DD-MM-yyyy"),
-      // });
-
-      // if (resp) {
-      //   toast.success("Answer saved successfully!");
-      // }
+      const resp = await db.insert(UserAnswer).values({
+        mockIdRef: interviewData?.mockId,
+        question: mockInterviewQuestions[activeQuestion]?.question,
+        correctAns: mockInterviewQuestions[activeQuestion]?.answer,
+        UserAns: userAnswer, // Ensure case matches your schema
+        feedback: jsonFeedbackResponse.feedback,
+        rating: jsonFeedbackResponse.rating,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        createdAt: moment().format("YYYY-MM-DD"), // Adjusted date format to "YYYY-MM-DD" for proper date handling
+      }).catch(error => {
+        console.error("Insert Error:", error);
+      });
+      console.log("Insert Response:", resp);
+      if (resp) {
+        toast.success("Answer saved successfully!");
+        // setUserAnswer('')
+        // setResults([]);
+      }
+      setResults([]);
       setUserAnswer("");
       setLoading(false);
     } catch (error) {
@@ -125,21 +126,16 @@ function RecordAnswerSection({
   };
   return (
     <div className="flex items-center justify-center flex-col">
-      <div className="my-4 flex flex-col items-center justify-center w-full max-w-3xl mx-auto p-5 border rounded-lg bg-black shadow-sm">
+      <div className="my-4 flex flex-col items-center justify-center w-full max-w-3xl mx-auto p-4 border rounded-lg bg-black shadow-sm">
         <div className="absolute bg-black">
-          <Image
-            src="/image.png"
-            alt="Record Answer"
-            width={200}
-            height={200}
-          />
+          <Image src="/image.png" alt="Record Answer" width={180} height={180} />
         </div>
-
+  
         <Webcam
           mirrored={true}
           style={{
             width: "100%",
-            height: 300,
+            height: 250, // Reduced height for better fit
             zIndex: 10,
           }}
         />
@@ -148,7 +144,7 @@ function RecordAnswerSection({
         disabled={loading}
         variant="outline"
         onClick={StartStopRecording}
-        className={`my-6 px-6 py-3 rounded-2xl font-semibold text-lg shadow-md transition-all duration-300 flex items-center gap-3 
+        className={`my-0 px-6 py-2 rounded-2xl font-semibold text-lg shadow-md transition-all duration-300 flex items-center gap-3 
         ${
           isRecording
             ? "bg-red-50 text-red-600 border-red-500 hover:bg-red-100"
@@ -162,10 +158,9 @@ function RecordAnswerSection({
         />
         <span>{isRecording ? "Stop Recording" : "Record Answer"}</span>
       </Button>
-
-      <Button onClick={() => console.log(userAnswer)}>Show User Answer</Button>
     </div>
   );
+  
 }
 
 export default RecordAnswerSection;

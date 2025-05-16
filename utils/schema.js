@@ -20,6 +20,6 @@ export const UserAnswer = pgTable('userAnswer', {
   UserAns: text('UserAns'),
   feedback: text('feedback'),
   rating: varchar('rating'),
-  userEmal: varchar('userEmail'),
+  userEmail: varchar('userEmail'),
   createdAt: varchar('createdAt'),
 });

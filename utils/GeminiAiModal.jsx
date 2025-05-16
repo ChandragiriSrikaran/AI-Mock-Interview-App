@@ -27,22 +27,33 @@ export async function generateInterviewQuestions({ jobPosition, jobDesc, jobExpe
     const result = await model.generateContent(inputPrompt);
     const response = await result.response;
     let text = await response.text();
-
+    
     // Clean the response to remove Markdown code block wrappers if present
     text = text.trim().replace(/^```(?:json)?\n/, "").replace(/\n```$/, "");
-
+    
     // Try parsing the cleaned text into JSON
-    const parsed = JSON.parse(text);
-
-    // Check if the parsed response is in the expected array format
-    if (Array.isArray(parsed)) {
-      return parsed;  // Return the parsed questions and answers
-    } else {
-      throw new Error("Unexpected response format: Expected an array of questions and answers.");
+    try {
+      const parsed = JSON.parse(text);
+    
+      // Format the parsed data into an array of objects with `question` and `answer`
+      const formattedResponse = parsed.map(item => ({
+        question: item.question,
+        answer: item.answer
+      }));
+    
+      // Convert the formatted response into a JSON string to store in the database
+      const responseString = JSON.stringify(formattedResponse);
+    
+      // Log the stringified response (for debugging purposes)
+      console.log('Response string to store in DB:', responseString);
+    
+      // Now, you can store `responseString` into your database
+      return responseString;  // Return the response string for further processing or storage
+    
+    } catch (error) {
+      console.error('Error parsing response:', error);
     }
-
   } catch (error) {
-    console.error("Error generating interview questions:", error);
-    throw error;  // Rethrow the error after logging it
+    console.error('Error generating interview questions:', error);
   }
 }
