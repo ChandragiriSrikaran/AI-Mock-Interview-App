@@ -33,7 +33,7 @@ function Header() {
         <li
           className={`hover:text-primary hover:font-bold transition-all cursor-pointer
           ${path === "/Dashboard/faq" ? "text-primary font-bold" : ""}`}
-          onClick={onClickFun('Questions')}
+          onClick={onClickFun('question')}
         >
           Question
         </li>

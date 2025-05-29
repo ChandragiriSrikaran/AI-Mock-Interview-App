@@ -18,7 +18,7 @@ export default function UpgradePage() {
       <Header />
 
       <div className="max-w-4xl mx-auto px-6 py-4 text-center">
-        <h1 className="text-4xl font-medium mb-4 text-gray-800">Upgrade to Pro</h1>
+        <h1 className="text-4xl font-medium mb-4 text-blue-600">Upgrade to Pro</h1>
 
         <div className="bg-white shadow-xl rounded-2xl p-4 border border-gray-200 w-fit mx-auto">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">What You’ll Get:</h2>
