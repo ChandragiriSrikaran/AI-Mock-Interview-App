@@ -40,4 +40,9 @@
     "@tailwindcss/postcss": "^4",
     "drizzle-kit": "^0.30.6"
   }
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
 }
