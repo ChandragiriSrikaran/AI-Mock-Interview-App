@@ -4,7 +4,7 @@ import Header from '../Dashboard/_components/Header';
 
 function Page() {
   // Card components with hover effects
-  const QuestionTypeCard = ({ number, title, description }) => (
+  const QuestionTypeCard = ({ number, title, chdescription }) => (
     <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border-l-4 border-indigo-500">
       <h2 className="text-2xl font-semibold mb-3 text-indigo-600 flex items-center">
         <span className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 font-bold">
@@ -13,7 +13,7 @@ function Page() {
         {title}
       </h2>
       <p className="text-gray-700">
-        {description}
+        {chdescription}
       </p>
     </div>
   );
