@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function Home() {
-  redirect('/Dashboard');
+  redirect('/question'); // Redirect to the question page
 }

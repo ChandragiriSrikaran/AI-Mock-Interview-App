@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,7 +17,7 @@ import { useUser } from "@clerk/nextjs";
 import { saveInterviewToDB } from "@/utils/saveInterview";
 import { useRouter } from "next/navigation";
 
-function AddNewInterview() {
+function AddNewInterview({ open = false }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
   const [jobDesc, setJobDesc] = useState("");
@@ -36,7 +36,7 @@ function AddNewInterview() {
         jobDesc,
         jobExperience,
       });
-      console.log('from teh new interview '+result)
+
       if (result) {
         const response = await saveInterviewToDB({
           result,
@@ -45,13 +45,11 @@ function AddNewInterview() {
           jobExperience,
           userEmail: user?.primaryEmailAddress?.emailAddress,
         });
+
         if (response) {
           setLoading(false);
           router.push("/Dashboard/interview/" + response[0]?.mockId);
         }
-        console.log("Inserted response:", response);
-      } else {
-        console.log("No result generated");
       }
     } catch (error) {
       console.error("Error generating questions:", error);
@@ -63,12 +61,22 @@ function AddNewInterview() {
 
   return (
     <div>
-      <div
-        className="p-10 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-        onClick={() => setOpenDialog(true)}
-      >
-        <h2 className="text-lg text-center">+ Add New</h2>
-      </div>
+      {!open && (
+        <div
+          className="p-10 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
+          onClick={() => setOpenDialog(true)}
+        >
+          <h2 className="text-lg text-center">+ Add New</h2>
+        </div>
+      )}
+      {open && (
+        <h2
+          className="w-full"
+          onClick={() => setOpenDialog(true)}
+        >
+        New Interview
+        </h2>
+      )}
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-3xl">
@@ -84,10 +92,7 @@ function AddNewInterview() {
 
           <form onSubmit={submitForm} className="space-y-4">
             <div>
-              <label
-                htmlFor="jobPosition"
-                className="block mb-1 text-sm font-medium"
-              >
+              <label htmlFor="jobPosition" className="block mb-1 text-sm font-medium">
                 Job Position / Role Name
               </label>
               <Input
@@ -100,10 +105,7 @@ function AddNewInterview() {
             </div>
 
             <div>
-              <label
-                htmlFor="jobDescription"
-                className="block mb-1 text-sm font-medium"
-              >
+              <label htmlFor="jobDescription" className="block mb-1 text-sm font-medium">
                 Job Description / Tech Stack (In Short)
               </label>
               <Textarea
@@ -116,10 +118,7 @@ function AddNewInterview() {
             </div>
 
             <div>
-              <label
-                htmlFor="experience"
-                className="block mb-1 text-sm font-medium"
-              >
+              <label htmlFor="experience" className="block mb-1 text-sm font-medium">
                 Years of Experience
               </label>
               <Input
@@ -134,11 +133,7 @@ function AddNewInterview() {
             </div>
 
             <div className="flex gap-5 justify-end pt-4">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => setOpenDialog(false)}
-              >
+              <Button type="button" variant="ghost" onClick={() => setOpenDialog(false)}>
                 Cancel
               </Button>
               <Button type="submit" disabled={loading}>
