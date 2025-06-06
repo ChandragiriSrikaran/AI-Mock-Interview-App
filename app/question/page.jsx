@@ -8,7 +8,7 @@ function Page() {
   return (
     <>
       <Header />
-      <div className='p-10'>
+      <div>
         <LandingPage />
       </div>
     </>

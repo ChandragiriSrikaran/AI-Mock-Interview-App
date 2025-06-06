@@ -6,6 +6,8 @@ import "../../globals.css";
 import { usePathname, useRouter } from "next/navigation";
 import AddNewInterview from "./AddNewInterview";
 
+
+
 function Header() {
   const path = usePathname();
   const router = useRouter();
@@ -64,7 +66,7 @@ function Header() {
             <AddNewInterview open={true} />
           </li>
         </ul>
-        <UserButton />
+         <UserButton/>
       </div>
     </>
   );
