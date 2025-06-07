@@ -71,7 +71,7 @@ function AddNewInterview({ open = false }) {
       )}
       {open && (
         <h2
-          className="w-full"
+          className="w-full text-purple-600 font-medium"
           onClick={() => setOpenDialog(true)}
         >
         New Interview
