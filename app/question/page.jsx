@@ -8,9 +8,9 @@ function Page() {
   return (
     <>
       <Header />
-      <div>
+      
         <LandingPage />
-      </div>
+      
     </>
   );
 }
