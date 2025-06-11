@@ -11,12 +11,11 @@ function Dashboard() {
           Create and start your AI Mockup Interview
         </p>
       </header>
-
+      
       <main className="max-w-[1200px] mx-auto flex flex-col gap-10">
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <AddNewInterview />
         </section>
-
         <section>
           <Interviewlist />
         </section>

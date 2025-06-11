@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Twitter, ArrowUp } from 'lucide-react';
 
-export default function Footer() {
+function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -176,3 +176,5 @@ export default function Footer() {
     </>
   );
 }
+
+export default Footer;
